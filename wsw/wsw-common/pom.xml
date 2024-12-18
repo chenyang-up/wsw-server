@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.wsw</groupId>
+        <artifactId>wsw</artifactId>
+        <version>3.6.5</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <modules>
+        <module>wsw-common-log</module>
+        <module>wsw-common-core</module>
+        <module>wsw-common-redis</module>
+        <module>wsw-common-seata</module>
+        <module>wsw-common-swagger</module>
+        <module>wsw-common-security</module>
+        <module>wsw-common-sensitive</module>
+        <module>wsw-common-datascope</module>
+        <module>wsw-common-datasource</module>
+    </modules>
+
+    <artifactId>wsw-common</artifactId>
+    <packaging>pom</packaging>
+
+    <description>
+        wsw-common通用模块
+    </description>
+
+</project>

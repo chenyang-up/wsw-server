@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="wsw-common-sensitive" />
+        <module name="wsw-modules-job" />
+        <module name="wsw-api-system" />
+        <module name="wsw-common-datascope" />
+        <module name="wsw-common-datasource" />
+        <module name="wsw-common-security" />
+        <module name="wsw-common-swagger" />
+        <module name="wsw-auth" />
+        <module name="wsw-modules-file" />
+        <module name="wsw-common-seata" />
+        <module name="wsw-common-core" />
+        <module name="wsw-common-log" />
+        <module name="wsw-modules-system" />
+        <module name="wsw-gateway" />
+        <module name="wsw-modules-gen" />
+        <module name="wsw-visual-monitor" />
+        <module name="wsw-common-redis" />
+      </profile>
+    </annotationProcessing>
+  </component>
+</project>

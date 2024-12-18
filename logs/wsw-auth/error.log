@@ -1,0 +1,5 @@
+12:00:27.398 [http-nio-9200-exec-1] ERROR c.w.c.s.h.GlobalExceptionHandler - [handleHttpRequestMethodNotSupported,63] - 请求地址'/logout',不支持'POST'请求
+12:00:32.210 [http-nio-9200-exec-2] ERROR c.w.c.s.h.GlobalExceptionHandler - [handleHttpRequestMethodNotSupported,63] - 请求地址'/logout',不支持'POST'请求
+12:01:48.361 [http-nio-9200-exec-4] ERROR c.w.c.s.h.GlobalExceptionHandler - [handleHttpRequestMethodNotSupported,63] - 请求地址'/logout',不支持'POST'请求
+12:02:14.242 [http-nio-9200-exec-5] ERROR c.w.c.s.h.GlobalExceptionHandler - [handleHttpRequestMethodNotSupported,63] - 请求地址'/logout',不支持'POST'请求
+12:03:23.344 [http-nio-9200-exec-7] ERROR c.w.c.s.h.GlobalExceptionHandler - [handleHttpRequestMethodNotSupported,63] - 请求地址'/logout',不支持'POST'请求

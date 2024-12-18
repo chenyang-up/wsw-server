@@ -1,0 +1,3 @@
+com.wsw.system.api.factory.RemoteUserFallbackFactory
+com.wsw.system.api.factory.RemoteLogFallbackFactory
+com.wsw.system.api.factory.RemoteFileFallbackFactory

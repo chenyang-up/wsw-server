@@ -1,0 +1,2 @@
+com.wsw.common.log.service.AsyncLogService
+com.wsw.common.log.aspect.LogAspect
