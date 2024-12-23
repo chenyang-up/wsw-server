@@ -51,4 +51,16 @@ public interface RemoteUserService
      */
     @PutMapping("/user/recordlogin")
     public R<Boolean> recordUserLogin(@RequestBody SysUser sysUser, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
+
+    /**
+     * 注册用户信息 V1 提供给微信注册使用
+     *
+     * @param sysUser 用户信息
+     * @param source 请求来源
+     * @return 结果
+     * @author chenzhongxin
+     * @date 2024/11/28
+     */
+    @PostMapping("/user/registerV1")
+    public R<Boolean> registerUserInfoV1(@RequestBody SysUser sysUser, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 }

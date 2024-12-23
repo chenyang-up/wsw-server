@@ -1,6 +1,10 @@
 package com.wsw.auth.service;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.wsw.auth.util.HttpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import com.wsw.common.core.constant.CacheConstants;
 import com.wsw.common.core.constant.Constants;
@@ -19,6 +23,10 @@ import com.wsw.system.api.RemoteUserService;
 import com.wsw.system.api.domain.SysUser;
 import com.wsw.system.api.model.LoginUser;
 
+import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 登录校验方法
  * 
@@ -27,7 +35,7 @@ import com.wsw.system.api.model.LoginUser;
 @Component
 public class SysLoginService
 {
-    @Autowired
+    @Resource
     private RemoteUserService remoteUserService;
 
     @Autowired
@@ -38,6 +46,10 @@ public class SysLoginService
 
     @Autowired
     private RedisService redisService;
+
+    @Autowired
+    private HttpUtil httpUtil;
+
 
     /**
      * 登录
@@ -151,5 +163,85 @@ public class SysLoginService
             throw new ServiceException(registerResult.getMsg());
         }
         recordLogService.recordLogininfor(username, Constants.REGISTER, "注册成功");
+    }
+
+    /**
+     * 注册 (从微信授权进行注册的用户)
+     *
+     * @author chenzhongxin
+     * @date 2024/11/25
+     */
+    public String registerFromWeixin (SysUser sysUser) {
+        String username = sysUser.getUserName();
+        String password = StringUtils.isEmpty(sysUser.getPassword()) ? "123456" : sysUser.getPassword();
+
+        // 微信接口获取token
+        String getTokenUrl = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx8b85be1abfde8b88&secret=b2d1f349dcbf60630c0d4758ed50d5ba";
+        Map<String, String> tokenHeaders = new HashMap<>();
+        ResponseEntity<String> tokenResponse = httpUtil.sendGet(getTokenUrl, tokenHeaders);
+        if (null == tokenResponse) {
+            throw new ServiceException("微信获取token地址调用失败！");
+        }
+        JSONObject tokenResponseJsonObject = JSON.parseObject(tokenResponse.getBody());
+        String token = tokenResponseJsonObject.getString("access_token");
+        if (StringUtils.isEmpty(token)) {
+            throw new ServiceException("微信获取token失败！");
+        }
+
+        // 通过code获取微信绑定的电话号码
+        String phoneNumber = "";
+        String url = "https://api.weixin.qq.com/wxa/business/getuserphonenumber?access_token="+token;
+        Map<String, Object> body = new HashMap<>();
+        body.put("code", username);
+        Map<String, String> headers = new HashMap<>();
+        ResponseEntity<String> response = httpUtil.sendPost(url, body, headers);
+        if (null == response) {
+            throw new ServiceException("微信获取电话号码地址调用失败！");
+        }
+        JSONObject responseJsonObject = JSON.parseObject(response.getBody());
+        if (0 != responseJsonObject.getInteger("errcode")) {
+            throw new ServiceException("微信获取电话号码失败！");
+        }
+        phoneNumber = responseJsonObject.getJSONObject("phone_info").getString("phoneNumber");
+        if (StringUtils.isEmpty(phoneNumber)) {
+            throw new ServiceException("微信获取phoneNumber失败！");
+        }
+
+        username = phoneNumber;
+
+        // 用户名或密码为空 错误
+        if (StringUtils.isAnyBlank(username, password))
+        {
+            throw new ServiceException("用户/密码必须填写");
+        }
+        if (username.length() < UserConstants.USERNAME_MIN_LENGTH
+                || username.length() > UserConstants.USERNAME_MAX_LENGTH)
+        {
+            throw new ServiceException("账户长度必须在2到20个字符之间");
+        }
+        if (password.length() < UserConstants.PASSWORD_MIN_LENGTH
+                || password.length() > UserConstants.PASSWORD_MAX_LENGTH)
+        {
+            throw new ServiceException("密码长度必须在5到20个字符之间");
+        }
+
+        // 注册用户信息
+        sysUser.setPassword(SecurityUtils.encryptPassword(password));
+        // TODO 设置默认数据
+        sysUser.setUserName(username);
+        sysUser.setPhonenumber(username);
+        Long[] roleIds = new Long[]{2L};
+        sysUser.setRoleIds(roleIds);
+        sysUser.setDeptId(105L);
+        // nickName特殊处理
+        sysUser.setNickName(StringUtils.removeEmoji(sysUser.getNickName()));
+        R<?> registerResult = remoteUserService.registerUserInfoV1(sysUser, SecurityConstants.INNER);
+
+        if (R.FAIL == registerResult.getCode())
+        {
+            throw new ServiceException(registerResult.getMsg());
+        }
+        recordLogService.recordLogininfor(username, Constants.REGISTER, "注册成功");
+        return phoneNumber;
     }
 }

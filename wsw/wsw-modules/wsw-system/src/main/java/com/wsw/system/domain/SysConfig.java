@@ -1,12 +1,12 @@
 package com.wsw.system.domain;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import com.wsw.common.core.annotation.Excel;
+import com.wsw.common.core.web.domain.BaseEntity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import com.wsw.common.core.annotation.Excel;
-import com.wsw.common.core.annotation.Excel.ColumnType;
-import com.wsw.common.core.web.domain.BaseEntity;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  * 参数配置表 sys_config
@@ -18,7 +18,7 @@ public class SysConfig extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** 参数主键 */
-    @Excel(name = "参数主键", cellType = ColumnType.NUMERIC)
+    @Excel(name = "参数主键", cellType = Excel.ColumnType.NUMERIC)
     private Long configId;
 
     /** 参数名称 */

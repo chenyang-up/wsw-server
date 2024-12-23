@@ -1,11 +1,12 @@
 package com.wsw.system.domain.vo;
 
+
 import com.wsw.common.core.utils.StringUtils;
 
 /**
  * 路由显示信息
  * 
- * @author wsw
+ * @author ruoyi
  */
 public class MetaVo
 {

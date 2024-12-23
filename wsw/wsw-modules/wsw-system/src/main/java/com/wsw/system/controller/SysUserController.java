@@ -348,4 +348,27 @@ public class SysUserController extends BaseController
     {
         return success(deptService.selectDeptTreeList(dept));
     }
+
+    /**
+     * 注册用户信息 V1
+     *
+     * @author chenzhongxin
+     * @date 2024/11/28
+     */
+    @InnerAuth
+    @PostMapping("/registerV1")
+    public R<Boolean> registerV1(@RequestBody SysUser sysUser)
+    {
+        if (!("true".equals(configService.selectConfigByKey("sys.account.registerUser"))))
+        {
+            return R.fail("当前系统没有开启注册功能！");
+        }
+        // 若已存在，则直接返回成功
+        if (!userService.checkUserNameUnique(sysUser))
+        {
+            return R.ok();
+        }
+        userService.registerUserV1(sysUser);
+        return R.ok();
+    }
 }

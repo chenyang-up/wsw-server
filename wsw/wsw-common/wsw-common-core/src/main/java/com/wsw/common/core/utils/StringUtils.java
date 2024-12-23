@@ -604,4 +604,19 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils
         }
         return sb.toString();
     }
+
+    /**
+     * 移除emoji表情
+     *
+     * @author chenzhongxin
+     * @date 2024/11/28
+     * */
+    public static String removeEmoji(String input) {
+        if (input == null) {
+            return null;
+        }
+        // 正则表达式匹配 Emoji
+        String emojiRegex = "[\\uD83C-\\uDBFF\\uDC00-\\uDFFF]|[\\u2600-\\u27FF]";
+        return input.replaceAll(emojiRegex, "");
+    }
 }

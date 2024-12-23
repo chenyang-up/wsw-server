@@ -1,16 +1,26 @@
 package com.wsw.system.mapper;
 
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
 import com.wsw.system.api.domain.SysUser;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 用户表 数据层
  * 
- * @author wsw
+ * @author ruoyi
  */
-public interface SysUserMapper
-{
+public interface SysUserMapper {
+
+    /**
+     * 通过账号列表获取用户信息
+     *
+     * @author chenzhongxin
+     * @date 2024/12/05 10:54
+     */
+
+    public List<SysUser> selectUserListByUserNames(@Param("userNames") List<String> userNames);
+
     /**
      * 根据条件分页查询用户列表
      * 

@@ -548,4 +548,26 @@ public class SysUserServiceImpl implements ISysUserService
         return successMsg.toString();
     }
 
+    /**
+     * 注册用户信息
+     *
+     * @param user 用户信息
+     * @return 结果
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void registerUserV1(SysUser user) {
+        // 新增用户信息
+        userMapper.insertUser(user);
+        // 新增用户岗位关联
+        insertUserPost(user);
+        // 新增用户与角色管理
+        insertUserRole(user);
+    }
+
+    @Override
+    public List<SysUser> selectUserListByUserNames(List<String> userNames) {
+        return userMapper.selectUserListByUserNames(userNames);
+    }
+
 }

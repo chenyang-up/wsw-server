@@ -203,4 +203,20 @@ public interface ISysUserService
      * @return 结果
      */
     public String importUser(List<SysUser> userList, Boolean isUpdateSupport, String operName);
+
+    /**
+     * 用户注册-for wx
+     *
+     * @author chenzhongxin
+     * @date 2024/12/18 01:48
+     */
+    public void registerUserV1(SysUser user);
+
+    /**
+     * 根据账号列表查询用户列表
+     *
+     * @param userNames 用户账号列表
+     * @return 用户信息集合信息
+     */
+    public List<SysUser> selectUserListByUserNames(List<String> userNames);
 }

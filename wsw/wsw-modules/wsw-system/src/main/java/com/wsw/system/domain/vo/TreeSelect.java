@@ -1,18 +1,17 @@
 package com.wsw.system.domain.vo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.wsw.system.api.domain.SysDept;
+import com.wsw.system.domain.SysMenu;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.wsw.common.core.constant.UserConstants;
-import com.wsw.common.core.utils.StringUtils;
-import com.wsw.system.api.domain.SysDept;
-import com.wsw.system.domain.SysMenu;
 
 /**
  * Treeselect树结构实体类
  * 
- * @author wsw
+ * @author ruoyi
  */
 public class TreeSelect implements Serializable
 {
@@ -23,9 +22,6 @@ public class TreeSelect implements Serializable
 
     /** 节点名称 */
     private String label;
-
-    /** 节点禁用 */
-    private boolean disabled = false;
 
     /** 子节点 */
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -40,7 +36,6 @@ public class TreeSelect implements Serializable
     {
         this.id = dept.getDeptId();
         this.label = dept.getDeptName();
-        this.disabled = StringUtils.equals(UserConstants.DEPT_DISABLE, dept.getStatus());
         this.children = dept.getChildren().stream().map(TreeSelect::new).collect(Collectors.toList());
     }
 
@@ -69,16 +64,6 @@ public class TreeSelect implements Serializable
     public void setLabel(String label)
     {
         this.label = label;
-    }
-
-    public boolean isDisabled()
-    {
-        return disabled;
-    }
-
-    public void setDisabled(boolean disabled)
-    {
-        this.disabled = disabled;
     }
 
     public List<TreeSelect> getChildren()

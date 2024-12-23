@@ -1,25 +1,25 @@
 package com.wsw.system.domain;
 
+import com.wsw.common.core.annotation.Excel;
+import com.wsw.common.core.web.domain.BaseEntity;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-import com.wsw.common.core.annotation.Excel;
-import com.wsw.common.core.annotation.Excel.ColumnType;
-import com.wsw.common.core.web.domain.BaseEntity;
 
 /**
  * 岗位表 sys_post
  * 
- * @author wsw
+ * @author ruoyi
  */
 public class SysPost extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
     /** 岗位序号 */
-    @Excel(name = "岗位序号", cellType = ColumnType.NUMERIC)
+    @Excel(name = "岗位序号", cellType = Excel.ColumnType.NUMERIC)
     private Long postId;
 
     /** 岗位编码 */
