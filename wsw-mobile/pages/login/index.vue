@@ -38,7 +38,7 @@ import { isEmpty } from '@/utils/verify.js'
 export default {
 	data() {
 		return {
-			title: '万事屋1027管理系统',
+			title: '万事屋1027',
 			subTitle: '欢迎回来，开始工作吧！',
 			// 图形验证码信息
 			captcha: null,

@@ -1,6 +1,11 @@
 package com.wsw.system.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.wsw.common.security.utils.DictUtils;
@@ -29,6 +34,16 @@ public class SysDictDataServiceImpl implements ISysDictDataService
     public List<SysDictData> selectDictDataList(SysDictData dictData)
     {
         return dictDataMapper.selectDictDataList(dictData);
+    }
+
+    @Override
+    public Map<String, String> selectDictDataMap(String dictType) {
+        List<SysDictData> sysDictData = dictDataMapper.selectDictDataByType(dictType);
+        if (CollectionUtils.isNotEmpty(sysDictData)) {
+            return sysDictData.stream().collect(Collectors.toMap(SysDictData::getDictValue, SysDictData::getDictLabel));
+        } else {
+            return new HashMap<>();
+        }
     }
 
     /**

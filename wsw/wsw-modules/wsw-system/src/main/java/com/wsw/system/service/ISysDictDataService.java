@@ -1,6 +1,8 @@
 package com.wsw.system.service;
 
 import java.util.List;
+import java.util.Map;
+
 import com.wsw.system.api.domain.SysDictData;
 
 /**
@@ -17,6 +19,14 @@ public interface ISysDictDataService
      * @return 字典数据集合信息
      */
     public List<SysDictData> selectDictDataList(SysDictData dictData);
+
+    /**
+     * 通过dictType获取字典数据Map数据
+     *
+     * @author chenzhongxin
+     * @date 2024/11/30
+     * */
+    Map<String, String> selectDictDataMap(String dictType);
 
     /**
      * 根据字典类型和字典键值查询字典数据信息

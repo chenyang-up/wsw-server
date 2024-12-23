@@ -1,16 +1,16 @@
 package com.wsw.system.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ruoyi.common.core.exception.ServiceException;
-import com.ruoyi.common.core.utils.bean.BeanV1Utils;
-import com.ruoyi.common.security.utils.SecurityUtils;
-import com.ruoyi.system.domain.dao.PickUpAddress;
-import com.ruoyi.system.domain.po.PickUpAddressPo;
-import com.ruoyi.system.domain.qo.PickUpAddressQo;
-import com.ruoyi.system.domain.vo.PickUpAddressVo;
-import com.ruoyi.system.mapper.PickUpAddressMapper;
-import com.ruoyi.system.service.IPickUpAddressService;
-import com.ruoyi.system.service.ISysDictDataService;
+import com.wsw.common.core.exception.ServiceException;
+import com.wsw.common.core.utils.bean.BeanV1Utils;
+import com.wsw.common.security.utils.SecurityUtils;
+import com.wsw.system.domain.dao.PickUpAddress;
+import com.wsw.system.domain.po.PickUpAddressPo;
+import com.wsw.system.domain.qo.PickUpAddressQo;
+import com.wsw.system.domain.vo.PickUpAddressVo;
+import com.wsw.system.mapper.PickUpAddressMapper;
+import com.wsw.system.service.IPickUpAddressService;
+import com.wsw.system.service.ISysDictDataService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

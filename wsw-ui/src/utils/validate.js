@@ -1,25 +1,13 @@
 /**
- * 路径匹配器
- * @param {string} pattern
- * @param {string} path
- * @returns {Boolean}
- */
-export function isPathMatch(pattern, path) {
-  const regexPattern = pattern.replace(/\//g, '\\/').replace(/\*\*/g, '.*').replace(/\*/g, '[^\\/]*')
-  const regex = new RegExp(`^${regexPattern}$`)
-  return regex.test(path)
-}
-
-/**
  * 判断value字符串是否为空 
  * @param {string} value
  * @returns {Boolean}
  */
 export function isEmpty(value) {
   if (value == null || value == "" || value == undefined || value == "undefined") {
-    return true
+    return true;
   }
-  return false
+  return false;
 }
 
 /**
@@ -99,7 +87,7 @@ export function validEmail(email) {
  * @returns {Boolean}
  */
 export function isString(str) {
-  return typeof str === 'string' || str instanceof String
+  return typeof str === 'string' || str instanceof String;
 }
 
 /**

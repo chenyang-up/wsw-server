@@ -119,7 +119,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.ruoyi.system.domain.dao.DeliveryAddress">
+  <update id="updateByPrimaryKeySelective" parameterType="com.wsw.system.domain.dao.DeliveryAddress">
     <!--@mbg.generated-->
     update delivery_address
     <set>

@@ -2,12 +2,6 @@ import request from '@/utils/request'
 
 // 登录方法
 export function login(username, password, code, uuid) {
-  const data = {
-    username,
-    password,
-    code,
-    uuid
-  }
   return request({
     url: '/auth/login',
     headers: {
@@ -15,7 +9,7 @@ export function login(username, password, code, uuid) {
       repeatSubmit: false
     },
     method: 'post',
-    data: data
+    data: { username, password, code, uuid }
   })
 }
 
@@ -31,6 +25,14 @@ export function register(data) {
   })
 }
 
+// 刷新方法
+export function refreshToken() {
+  return request({
+    url: '/auth/refresh',
+    method: 'post'
+  })
+}
+
 // 获取用户详细信息
 export function getInfo() {
   return request({
@@ -43,7 +45,7 @@ export function getInfo() {
 export function logout() {
   return request({
     url: '/auth/logout',
-    method: 'post'
+    method: 'delete'
   })
 }
 
