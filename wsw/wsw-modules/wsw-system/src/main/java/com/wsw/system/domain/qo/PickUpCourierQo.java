@@ -1,5 +1,6 @@
 package com.wsw.system.domain.qo;
 
+import com.wsw.common.core.web.domain.PageQueryEntity;
 import lombok.*;
 
 /**
@@ -10,7 +11,7 @@ import lombok.*;
  * @date 2024/12/10
  */
 @Data
-public class PickUpCourierQo {
+public class PickUpCourierQo extends PageQueryEntity {
 
     private Long id;
 

@@ -34,6 +34,16 @@ public interface DeliveryAddressMapper extends BaseMapper<DeliveryAddress> {
     }
 
     /**
+     * 通过codes获取地址详情信息
+     *
+     * @author chenzhongxin
+     * @date 2024/12/24 01:50
+     */
+    default List<DeliveryAddress> selectListByCodes(List<String> codes) {
+        return selectList(new QueryWrapper<DeliveryAddress>().in("code", codes));
+    }
+
+    /**
      * 分页查询
      *
      * @param qo 查询参数

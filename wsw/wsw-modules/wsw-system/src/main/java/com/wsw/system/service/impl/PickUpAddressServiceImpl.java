@@ -60,6 +60,12 @@ public class PickUpAddressServiceImpl implements IPickUpAddressService {
     }
 
     @Override
+    public List<PickUpAddressVo> getInfoListByCodes(List<String> codes) {
+        List<PickUpAddress> pickUpAddresses = pickUpAddressMapper.selectListByCodes(codes);
+        return BeanV1Utils.toBean(pickUpAddresses, PickUpAddressVo.class);
+    }
+
+    @Override
     public void insert(PickUpAddressPo entity) {
         // 校验取货地址是否唯一
         PickUpAddress pickUpAddress = pickUpAddressMapper.selectOneByAddressName(entity.getAddressName());

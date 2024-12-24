@@ -122,6 +122,11 @@ public class DeliveryAddressServiceImpl implements DeliveryAddressService {
     }
 
     @Override
+    public List<DeliveryAddressVo> selectInfoByCodes(List<String> codes) {
+        return BeanV1Utils.toBean(deliveryAddressMapper.selectListByCodes(codes), DeliveryAddressVo.class);
+    }
+
+    @Override
     public void deleteByCode(String code) {
         deliveryAddressMapper.deleteByCode(code);
     }

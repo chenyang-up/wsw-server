@@ -43,6 +43,14 @@ public interface DeliveryAddressService {
     DeliveryAddressVo selectInfoByCode(String code);
 
     /**
+     * 通过codes获取到地址详情
+     *
+     * @author chenzhongxin
+     * @date 2024/12/24 01:48
+     */
+    List<DeliveryAddressVo> selectInfoByCodes(List<String> codes);
+
+    /**
      * 通过code删除地址数据
      *
      * @author chenzhongxin

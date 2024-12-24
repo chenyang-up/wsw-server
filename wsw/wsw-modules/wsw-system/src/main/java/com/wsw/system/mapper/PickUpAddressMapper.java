@@ -57,6 +57,13 @@ public interface PickUpAddressMapper extends BaseMapper<PickUpAddress> {
     }
 
     /**
+     * 查询取货地址列表
+     * */
+    default List<PickUpAddress> selectListByCodes(List<String> codes) {
+        return selectList(new QueryWrapper<PickUpAddress>().in("address_code", codes));
+    }
+
+    /**
      * 添加取货地址信息
      *
      * @param entity 取货地址信息

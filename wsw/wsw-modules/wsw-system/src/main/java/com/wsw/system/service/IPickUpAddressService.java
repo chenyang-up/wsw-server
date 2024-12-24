@@ -26,6 +26,11 @@ public interface IPickUpAddressService {
      * */
     PickUpAddressVo getInfo(String addressCode);
 
+    /**
+     * 通过code列表,获取取货地址列表信息
+     * */
+    List<PickUpAddressVo> getInfoListByCodes(List<String> codes);
+
     void insert(PickUpAddressPo entity);
 
     void update(PickUpAddressPo entity);

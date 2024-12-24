@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wsw.system.mapper.PickUpCourierMapper">
+  <resultMap id="BaseResultMap" type="com.wsw.system.domain.dao.PickUpCourier">
+    <!--@mbg.generated-->
+    <!--@Table pick_up_courier-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="pick_up_code" jdbcType="VARCHAR" property="pickUpCode" />
+    <result column="delivery_code" jdbcType="VARCHAR" property="deliveryCode" />
+    <result column="time_type" jdbcType="VARCHAR" property="timeType" />
+    <result column="start_time" jdbcType="VARCHAR" property="startTime" />
+    <result column="end_time" jdbcType="VARCHAR" property="endTime" />
+    <result column="small_count" jdbcType="INTEGER" property="smallCount" />
+    <result column="medium_count" jdbcType="INTEGER" property="mediumCount" />
+    <result column="big_count" jdbcType="INTEGER" property="bigCount" />
+    <result column="pickup_message" jdbcType="VARCHAR" property="pickupMessage" />
+    <result column="remake" jdbcType="VARCHAR" property="remake" />
+    <result column="order_takers_user_name" jdbcType="VARCHAR" property="orderTakersUserName" />
+    <result column="order_takers_status" jdbcType="VARCHAR" property="orderTakersStatus" />
+    <result column="reward" jdbcType="DOUBLE" property="reward" />
+    <result column="fulfillment_fee" jdbcType="DOUBLE" property="fulfillmentFee" />
+    <result column="payment_status" jdbcType="VARCHAR" property="paymentStatus" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, code, user_name, pick_up_code, delivery_code, time_type, start_time, end_time, 
+    small_count, medium_count, big_count, pickup_message, remake, order_takers_user_name, 
+    order_takers_status, reward, fulfillment_fee, payment_status, create_by, create_time, 
+    update_by, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from pick_up_courier
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from pick_up_courier
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.wsw.system.domain.dao.PickUpCourier" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into pick_up_courier (code, user_name, pick_up_code, 
+      delivery_code, time_type, start_time, 
+      end_time, small_count, medium_count, 
+      big_count, pickup_message, remake, 
+      order_takers_user_name, order_takers_status, 
+      reward, fulfillment_fee, payment_status, 
+      create_by, create_time, update_by, 
+      update_time)
+    values (#{code,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{pickUpCode,jdbcType=VARCHAR}, 
+      #{deliveryCode,jdbcType=VARCHAR}, #{timeType,jdbcType=VARCHAR}, #{startTime,jdbcType=VARCHAR}, 
+      #{endTime,jdbcType=VARCHAR}, #{smallCount,jdbcType=INTEGER}, #{mediumCount,jdbcType=INTEGER}, 
+      #{bigCount,jdbcType=INTEGER}, #{pickupMessage,jdbcType=VARCHAR}, #{remake,jdbcType=VARCHAR}, 
+      #{orderTakersUserName,jdbcType=VARCHAR}, #{orderTakersStatus,jdbcType=VARCHAR}, 
+      #{reward,jdbcType=DOUBLE}, #{fulfillmentFee,jdbcType=DOUBLE}, #{paymentStatus,jdbcType=VARCHAR}, 
+      #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.wsw.system.domain.dao.PickUpCourier" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into pick_up_courier
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="code != null">
+        code,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="pickUpCode != null">
+        pick_up_code,
+      </if>
+      <if test="deliveryCode != null">
+        delivery_code,
+      </if>
+      <if test="timeType != null">
+        time_type,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="smallCount != null">
+        small_count,
+      </if>
+      <if test="mediumCount != null">
+        medium_count,
+      </if>
+      <if test="bigCount != null">
+        big_count,
+      </if>
+      <if test="pickupMessage != null">
+        pickup_message,
+      </if>
+      <if test="remake != null">
+        remake,
+      </if>
+      <if test="orderTakersUserName != null">
+        order_takers_user_name,
+      </if>
+      <if test="orderTakersStatus != null">
+        order_takers_status,
+      </if>
+      <if test="reward != null">
+        reward,
+      </if>
+      <if test="fulfillmentFee != null">
+        fulfillment_fee,
+      </if>
+      <if test="paymentStatus != null">
+        payment_status,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="pickUpCode != null">
+        #{pickUpCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryCode != null">
+        #{deliveryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="timeType != null">
+        #{timeType,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=VARCHAR},
+      </if>
+      <if test="smallCount != null">
+        #{smallCount,jdbcType=INTEGER},
+      </if>
+      <if test="mediumCount != null">
+        #{mediumCount,jdbcType=INTEGER},
+      </if>
+      <if test="bigCount != null">
+        #{bigCount,jdbcType=INTEGER},
+      </if>
+      <if test="pickupMessage != null">
+        #{pickupMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="remake != null">
+        #{remake,jdbcType=VARCHAR},
+      </if>
+      <if test="orderTakersUserName != null">
+        #{orderTakersUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderTakersStatus != null">
+        #{orderTakersStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="reward != null">
+        #{reward,jdbcType=DOUBLE},
+      </if>
+      <if test="fulfillmentFee != null">
+        #{fulfillmentFee,jdbcType=DOUBLE},
+      </if>
+      <if test="paymentStatus != null">
+        #{paymentStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wsw.system.domain.dao.PickUpCourier">
+    <!--@mbg.generated-->
+    update pick_up_courier
+    <set>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="pickUpCode != null">
+        pick_up_code = #{pickUpCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryCode != null">
+        delivery_code = #{deliveryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="timeType != null">
+        time_type = #{timeType,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=VARCHAR},
+      </if>
+      <if test="smallCount != null">
+        small_count = #{smallCount,jdbcType=INTEGER},
+      </if>
+      <if test="mediumCount != null">
+        medium_count = #{mediumCount,jdbcType=INTEGER},
+      </if>
+      <if test="bigCount != null">
+        big_count = #{bigCount,jdbcType=INTEGER},
+      </if>
+      <if test="pickupMessage != null">
+        pickup_message = #{pickupMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="remake != null">
+        remake = #{remake,jdbcType=VARCHAR},
+      </if>
+      <if test="orderTakersUserName != null">
+        order_takers_user_name = #{orderTakersUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderTakersStatus != null">
+        order_takers_status = #{orderTakersStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="reward != null">
+        reward = #{reward,jdbcType=DOUBLE},
+      </if>
+      <if test="fulfillmentFee != null">
+        fulfillment_fee = #{fulfillmentFee,jdbcType=DOUBLE},
+      </if>
+      <if test="paymentStatus != null">
+        payment_status = #{paymentStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wsw.system.domain.dao.PickUpCourier">
+    <!--@mbg.generated-->
+    update pick_up_courier
+    set code = #{code,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      pick_up_code = #{pickUpCode,jdbcType=VARCHAR},
+      delivery_code = #{deliveryCode,jdbcType=VARCHAR},
+      time_type = #{timeType,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=VARCHAR},
+      end_time = #{endTime,jdbcType=VARCHAR},
+      small_count = #{smallCount,jdbcType=INTEGER},
+      medium_count = #{mediumCount,jdbcType=INTEGER},
+      big_count = #{bigCount,jdbcType=INTEGER},
+      pickup_message = #{pickupMessage,jdbcType=VARCHAR},
+      remake = #{remake,jdbcType=VARCHAR},
+      order_takers_user_name = #{orderTakersUserName,jdbcType=VARCHAR},
+      order_takers_status = #{orderTakersStatus,jdbcType=VARCHAR},
+      reward = #{reward,jdbcType=DOUBLE},
+      fulfillment_fee = #{fulfillmentFee,jdbcType=DOUBLE},
+      payment_status = #{paymentStatus,jdbcType=VARCHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
