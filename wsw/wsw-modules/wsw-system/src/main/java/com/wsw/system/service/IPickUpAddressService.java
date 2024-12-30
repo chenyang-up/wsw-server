@@ -50,4 +50,9 @@ public interface IPickUpAddressService {
      * */
     void deleteByCodes(List<String> addressCodes);
 
+    /**
+     * 获取所有取货地址数据
+     * */
+    List<PickUpAddressVo> selectAll();
+
 }

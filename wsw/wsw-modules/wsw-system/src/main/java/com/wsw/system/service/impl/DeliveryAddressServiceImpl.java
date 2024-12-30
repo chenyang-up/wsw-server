@@ -1,5 +1,6 @@
 package com.wsw.system.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wsw.common.core.utils.bean.BeanV1Utils;
 import com.wsw.common.security.utils.SecurityUtils;
@@ -129,6 +130,44 @@ public class DeliveryAddressServiceImpl implements DeliveryAddressService {
     @Override
     public void deleteByCode(String code) {
         deliveryAddressMapper.deleteByCode(code);
+    }
+
+    @Override
+    public List<DeliveryAddressVo> selectByCreateBy() {
+        String username = SecurityUtils.getUsername();
+        if (StringUtils.isBlank(username)) {
+            throw new SecurityException("当前登录用户为空");
+        }
+        List<DeliveryAddress> deliveryAddresses = deliveryAddressMapper.selectList(new QueryWrapper<DeliveryAddress>().eq("create_by", username));
+        List<DeliveryAddressVo> deliveryAddressVos = BeanV1Utils.toBean(deliveryAddresses, DeliveryAddressVo.class);
+        if (CollectionUtils.isEmpty(deliveryAddresses)) {
+            return Collections.emptyList();
+        }
+
+        // 地址数据准备 (关联的地址信息)
+        List<String> systemAddressCodeList = deliveryAddressVos.stream().map(DeliveryAddressVo::getSystemAddressCode).collect(Collectors.toList());
+        List<SystemAddress> systemAddresseList = systemAddressService.selectListByCodes(systemAddressCodeList);
+        Map<String, String> systemAddresseMap = new HashMap<>();
+        if (CollectionUtils.isNotEmpty(systemAddresseList)) {
+            systemAddresseMap = systemAddresseList.stream().collect(Collectors.toMap(SystemAddress::getCode, SystemAddress::getFullName));
+        }
+
+        // 用户数据
+        List<String> userNames = deliveryAddressVos.stream().map(DeliveryAddressVo::getUserName).collect(Collectors.toList());
+        List<SysUser> sysUsers = userService.selectUserListByUserNames(userNames);
+        Map<String, String> sysUserMap = new HashMap<>();
+        if (CollectionUtils.isNotEmpty(sysUsers)) {
+            sysUserMap = sysUsers.stream().collect(Collectors.toMap(SysUser::getUserName, SysUser::getNickName));
+        }
+
+        // 填充展示数据
+        for (DeliveryAddressVo vo : deliveryAddressVos) {
+            // 选择地址全称
+            vo.setSystemAddressFullName(systemAddresseMap.getOrDefault(vo.getSystemAddressCode(), "未知类型地址"));
+            // 用户账号信息
+            vo.setUserNameStr(sysUserMap.getOrDefault(vo.getUserName(), "未知用户"));
+        }
+        return deliveryAddressVos;
     }
 
     @Override

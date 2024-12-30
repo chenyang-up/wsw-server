@@ -128,7 +128,7 @@
 </template>
 
 <script>
-import pickupAddressApi from "@/api/system/pickup_address";
+import pickupAddressApi from "@/api/server/pickup_address";
 
 export default {
   name: "PickupAddress",

@@ -134,3 +134,11 @@ export function deptTreeSelect() {
     method: 'get'
   })
 }
+
+// 查询用户列表(下拉使用)
+export function listAllUser() {
+  return request({
+    url: '/system/user/userList',
+    method: 'get'
+  })
+}

@@ -15,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 
 /**
@@ -92,6 +93,19 @@ public class PickUpAddressController extends BaseController {
         }
         pickUpAddressService.deleteByCodes(po.getAddressCodes());
         return success();
+    }
+
+    /**
+     * 获取所有取货地址列表(非分页)
+     * 下拉使用
+     *
+     * @author chenzhongxin
+     * @date 2024/12/27 09:07
+     */
+    @GetMapping("/getPickupAddressList")
+    public AjaxResult getPickupAddressList() {
+        List<PickUpAddressVo> pickUpAddressVos = pickUpAddressService.selectAll();
+        return success(pickUpAddressVos);
     }
 
 }

@@ -58,6 +58,14 @@ public interface DeliveryAddressService {
      */
     void deleteByCode(String code);
 
+    /**
+     * 获取所有数据
+     *
+     * @author chenzhongxin
+     * @date 2024/12/27 04:20
+     */
+    List<DeliveryAddressVo> selectByCreateBy();
+
     int deleteByPrimaryKey(Long id);
 
     int insert(DeliveryAddressPo po);
@@ -67,4 +75,5 @@ public interface DeliveryAddressService {
     int insertSelective(DeliveryAddress record);
 
     DeliveryAddress selectByPrimaryKey(Long id);
+
 }

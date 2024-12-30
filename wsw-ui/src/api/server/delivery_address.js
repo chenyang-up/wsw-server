@@ -2,12 +2,20 @@ import request from '@/utils/request'
 
 const deliveryAddressApi = {
 
-  // 查询收货地址列表
+  // 查询收货地址列表 (分页)
   getList(query) {
     return request({
       url: '/system/delivery_address/getPageList',
       method: 'get',
       params: query
+    })
+  },
+
+  // 查询收货地址列表 (不分页)
+  getAllList(query) {
+    return request({
+      url: '/system/delivery_address/getDeliveryAddressList',
+      method: 'get'
     })
   },
 

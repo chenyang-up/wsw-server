@@ -95,4 +95,16 @@ public class DeliveryAddressController extends BaseController {
         return success();
     }
 
+    /**
+     * 获取取货地址列表(不分页)
+     *
+     * @author chenzhongxin
+     * @date 2024/12/27 04:19
+     */
+    @GetMapping("/getDeliveryAddressList")
+    public AjaxResult getDeliveryAddressList() {
+        List<DeliveryAddressVo> deliveryAddressVos = deliveryAddressService.selectByCreateBy();
+        return success(deliveryAddressVos);
+    }
+
 }

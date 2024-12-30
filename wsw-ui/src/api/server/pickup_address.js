@@ -2,12 +2,20 @@ import request from '@/utils/request'
 
 const pickupAddressApi = {
 
-  // 查询取货地址列表
+  // 查询取货地址列表(分页)
   getList(query) {
     return request({
       url: '/system/pick_up_address/getPageList',
       method: 'get',
       params: query
+    })
+  },
+
+  // 查询取货地址列表(不分页)
+  getAllList(query) {
+    return request({
+      url: '/system/pick_up_address/getPickupAddressList',
+      method: 'get'
     })
   },
 

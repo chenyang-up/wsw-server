@@ -371,4 +371,14 @@ public class SysUserController extends BaseController
         userService.registerUserV1(sysUser);
         return R.ok();
     }
+
+    /**
+     * 获取用户列表 (无需权限,下拉使用)
+     */
+    @GetMapping("/userList")
+    public List<SysUser> userList()
+    {
+        List<SysUser> list = userService.selectAllUser(new SysUser());
+        return list;
+    }
 }

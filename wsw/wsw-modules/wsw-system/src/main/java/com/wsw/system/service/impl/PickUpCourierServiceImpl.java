@@ -4,11 +4,13 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wsw.common.core.utils.bean.BeanV1Utils;
 import com.wsw.common.security.utils.SecurityUtils;
 import com.wsw.system.api.domain.SysUser;
+import com.wsw.system.domain.dao.SystemAddress;
 import com.wsw.system.domain.po.PickUpCourierPo;
 import com.wsw.system.domain.qo.PickUpCourierQo;
 import com.wsw.system.domain.vo.DeliveryAddressVo;
 import com.wsw.system.domain.vo.PickUpAddressVo;
 import com.wsw.system.domain.vo.PickUpCourierVo;
+import com.wsw.system.domain.vo.SystemAddressVo;
 import com.wsw.system.service.*;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +64,10 @@ public class PickUpCourierServiceImpl implements PickUpCourierService {
     @Resource
     private ISysUserService userService;
 
+    /** 系统地址Service */
+    @Resource
+    private ISystemAddressService systemAddressService;
+
 
     @Override
     public Page<PickUpCourierVo> getPageList(PickUpCourierQo qo) {
@@ -86,6 +92,13 @@ public class PickUpCourierServiceImpl implements PickUpCourierService {
             List<String> deliveryCodes = pickUpInfoList.stream().map(PickUpCourierVo::getDeliveryCode).collect(Collectors.toList());
             List<DeliveryAddressVo> deliveryAddressVos = deliveryAddressService.selectInfoByCodes(deliveryCodes);
             if (CollectionUtils.isNotEmpty(deliveryAddressVos)) {
+                // 系统地址数据
+                List<String> systemAddressCodeList = deliveryAddressVos.stream().map(DeliveryAddressVo::getSystemAddressCode).collect(Collectors.toList());
+                Map<String, String> systemAddressMap= systemAddressService.selectListByCodes(systemAddressCodeList).stream().collect(Collectors.toMap(SystemAddress::getCode, SystemAddress::getFullName));
+                // 数据填充
+                for (DeliveryAddressVo vo : deliveryAddressVos) {
+                    vo.setSystemAddressFullName(systemAddressMap.getOrDefault(vo.getSystemAddressCode(), "未知类型地址"));
+                }
                 deliveryAddressVoMap = deliveryAddressVos.stream().collect(Collectors.toMap(DeliveryAddressVo::getCode, Function.identity()));
             }
 
@@ -136,9 +149,18 @@ public class PickUpCourierServiceImpl implements PickUpCourierService {
         String code = UUID.randomUUID().toString().replace("-", "");
         po.setCode(code);
         PickUpCourier info = BeanV1Utils.toBean(po, PickUpCourier.class);
+
+        // 当前登录用户
+        info.setUserName(SecurityUtils.getUsername());
+        // 未接单
+        info.setOrderTakersStatus("0");
+        // 未支付
+        info.setPaymentStatus("0");
+
         info.setCreateBy(SecurityUtils.getUsername());
         info.setCreateTime(new Date());
-        return pickUpCourierMapper.insert(info);
+        pickUpCourierMapper.insert(info);
+        return 0;
     }
 
     @Override

@@ -1,6 +1,9 @@
 package com.wsw.system.domain.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
+
+import java.util.Date;
 
 /**
  * 代取快递管理 Vo
@@ -135,5 +138,10 @@ public class PickUpCourierVo {
      * 支付状态 文本
      * */
     private String paymentStatusStr;
+
+    //======================
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date createTime;
 
 }
