@@ -66,4 +66,44 @@ public interface PickUpCourierService{
      * */
     void deleteByCode(String code);
 
+    /**
+     * 快递代取管理-修改(code) -针对支付功能
+     *
+     * @author chenzhongxin
+     * @date 2024/12/23 04:56
+     */
+    Boolean updatePaymentStatusByCodeForPay(String code);
+
+    /**
+     * 快递代取管理-修改(code) -针对退款功能
+     *
+     * @author chenzhongxin
+     * @date 2024/12/30 11:17
+     */
+    Boolean updateRefundStatusByCodeForRefund(String code);
+
+    /**
+     * 快递代取管理-修改(code) -针对取消退款功能
+     *
+     * @author chenzhongxin
+     * @date 2024/12/30 11:17
+     */
+    Boolean updateRefundStatusByCodeForCancelRefund(String code);
+
+    /**
+     * 接单
+     *
+     * @author chenzhongxin
+     * @date 2024/12/30 01:57
+     */
+    void updateOrderStatusByCodeForTakeOrders (String code);
+
+    /**
+     * 更新订单状态
+     *
+     * @author chenzhongxin
+     * @date 2024/12/30 03:58
+     */
+    void updateOrderStatusByCode (String code, String orderTakersStatus);
+
 }

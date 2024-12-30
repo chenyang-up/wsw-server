@@ -80,4 +80,61 @@ public class PickUpCourierController extends BaseController {
         return success();
     }
 
+    /**
+     * 修改-代取订单-支付订单接口
+     */
+    @RequiresPermissions("server:pick_up_courier:edit")
+    @Log(title = "代取管理", businessType = BusinessType.UPDATE)
+    @PutMapping("/payOrders")
+    public AjaxResult payOrders(@PathVariable String code) {
+        Boolean sfPay = pickUpCourierService.updatePaymentStatusByCodeForPay(code);
+        if (!sfPay) {
+            return error("支付失败! 若是已完成支付出现支付失败,请联系086-13333进行处理.");
+        }
+        return success();
+    }
+
+    /**
+     * 代取订单-退款接口
+     */
+    @RequiresPermissions("server:pick_up_courier:edit")
+    @Log(title = "代取管理", businessType = BusinessType.UPDATE)
+    @PutMapping("/refund")
+    public AjaxResult refund(@PathVariable String code) {
+        Boolean sfRefund = pickUpCourierService.updateRefundStatusByCodeForRefund(code);
+        if (!sfRefund) {
+            return error("退款申请成功!");
+        }
+        return success();
+    }
+
+    /**
+     * 代取订单-取消退款
+     */
+    @RequiresPermissions("server:pick_up_courier:edit")
+    @Log(title = "代取管理", businessType = BusinessType.UPDATE)
+    @PutMapping("/cancelRefund")
+    public AjaxResult cancelRefund(@PathVariable String code) {
+        Boolean sfCancelRefund = pickUpCourierService.updateRefundStatusByCodeForCancelRefund(code);
+        if (!sfCancelRefund) {
+            return error("取消退款失败!请刷新重试.");
+        }
+        return success();
+    }
+
+    /**
+     * 代取订单-接单接口
+     *
+     * @author chenzhongxin
+     * @date 2024/12/30 01:51
+     */
+    @RequiresPermissions("server:pick_up_courier:edit")
+    @Log(title = "代取管理", businessType = BusinessType.UPDATE)
+    @PutMapping("/takeOrders")
+    public AjaxResult takeOrders(@PathVariable String code) {
+        pickUpCourierService.updateOrderStatusByCodeForTakeOrders(code);
+        return success();
+    }
+
+
 }

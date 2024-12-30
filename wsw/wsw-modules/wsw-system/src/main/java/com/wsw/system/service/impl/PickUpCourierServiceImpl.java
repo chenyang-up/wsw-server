@@ -1,7 +1,9 @@
 package com.wsw.system.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.wsw.common.core.exception.ServiceException;
 import com.wsw.common.core.utils.bean.BeanV1Utils;
+import com.wsw.common.redis.service.RedisService;
 import com.wsw.common.security.utils.SecurityUtils;
 import com.wsw.system.api.domain.SysUser;
 import com.wsw.system.domain.dao.SystemAddress;
@@ -12,15 +14,18 @@ import com.wsw.system.domain.vo.PickUpAddressVo;
 import com.wsw.system.domain.vo.PickUpCourierVo;
 import com.wsw.system.domain.vo.SystemAddressVo;
 import com.wsw.system.service.*;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.wsw.system.mapper.PickUpCourierMapper;
 import com.wsw.system.domain.dao.PickUpCourier;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -32,7 +37,7 @@ import java.util.stream.Collectors;
  * @author chenzhongxin
  * @date 2024/12/23 04:34
  */
-
+@Slf4j
 @Service
 public class PickUpCourierServiceImpl implements PickUpCourierService {
 
@@ -44,6 +49,9 @@ public class PickUpCourierServiceImpl implements PickUpCourierService {
 
     /** 时间类型 */
     private static final String TIME_TYPE = "wx_time_type";
+
+    /** redis锁前缀 */
+    private static final String ORDER_LOCK_PREFIX = "order_lock_:";
 
     @Resource
     private PickUpCourierMapper pickUpCourierMapper;
@@ -67,6 +75,10 @@ public class PickUpCourierServiceImpl implements PickUpCourierService {
     /** 系统地址Service */
     @Resource
     private ISystemAddressService systemAddressService;
+
+    /** redis Service */
+    @Resource
+    private RedisService redisService;
 
 
     @Override
@@ -201,6 +213,132 @@ public class PickUpCourierServiceImpl implements PickUpCourierService {
     @Override
     public void deleteByCode(String code) {
         pickUpCourierMapper.deleteByCode(code);
+    }
+
+    @Override
+    public Boolean updatePaymentStatusByCodeForPay(String code) {
+        // 读取订单详情
+        PickUpCourier pickUpCourierInfo = pickUpCourierMapper.selectByCode(code);
+
+        Boolean sfPay = true;
+        try {
+            // TODO 调用微信支付接口,返回支付状态
+            // 发起支付接口调用
+        } catch (Exception e) {
+            sfPay = false;
+            log.error("调用微信支付接口失败", e);
+        }
+
+        if (sfPay) {
+            // 1-已支付
+            pickUpCourierInfo.setPaymentStatus("1");
+        } else {
+            // 4-支付失败
+            pickUpCourierInfo.setPaymentStatus("4");
+        }
+        pickUpCourierMapper.updateByCode(pickUpCourierInfo);
+        return sfPay;
+    }
+
+    @Override
+    @Transactional
+    public Boolean updateRefundStatusByCodeForRefund(String code) {
+        // 读取订单详情
+        PickUpCourier pickUpCourierInfo = pickUpCourierMapper.selectByCode(code);
+        String paymentStatus = pickUpCourierInfo.getPaymentStatus();
+        // 判断是否支付成功
+        if (!"1".equals(paymentStatus)) {
+            throw new SecurityException("订单未支付,不能进行退款申请!");
+        }
+
+        Boolean sfRefund = true;
+        try {
+            // TODO 调用微信退款接口,返回退款状态
+        } catch (Exception e) {
+            sfRefund = false;
+            log.error("调用微信退款接口失败", e);
+        }
+
+        if (sfRefund) {
+            // 2-退款中
+            pickUpCourierInfo.setPaymentStatus("2");
+        } else {
+            // 5-退款失败
+            pickUpCourierInfo.setPaymentStatus("5");
+        }
+        pickUpCourierMapper.updateByCode(pickUpCourierInfo);
+        return sfRefund;
+    }
+
+    @Override
+    @Transactional
+    public Boolean updateRefundStatusByCodeForCancelRefund(String code) {
+        // 读取订单详情
+        PickUpCourier pickUpCourierInfo = pickUpCourierMapper.selectByCode(code);
+        String paymentStatus = pickUpCourierInfo.getPaymentStatus();
+        // 判断是否进行退款
+        if (!"2".equals(paymentStatus)) {
+            throw new SecurityException("订单处于退款过程中,不能取消退款申请!");
+        }
+
+        Boolean sfCancelRefund = true;
+        try {
+            // TODO 调用微信取消退款接口,返回取消退款状态
+        } catch (Exception e) {
+            sfCancelRefund = false;
+            log.error("调用微信取消退款接口失败", e);
+        }
+
+        if (sfCancelRefund) {
+            // 1-已支付
+            pickUpCourierInfo.setPaymentStatus("1");
+        }
+        pickUpCourierMapper.updateByCode(pickUpCourierInfo);
+        return sfCancelRefund;
+    }
+
+    @Override
+    public void updateOrderStatusByCodeForTakeOrders(String code) {
+        String lockKey = ORDER_LOCK_PREFIX + code;
+        // 添加Redis的锁
+        acceptOrderWithRedisLock(code, lockKey);
+        try {
+            PickUpCourier info = pickUpCourierMapper.selectByCode(code);
+            String orderTakersStatus = info.getOrderTakersStatus();
+            if (!"0".equals(orderTakersStatus)) {
+                if ("1".equals(orderTakersStatus)) {
+                    throw new ServiceException("订单已被其他人接单,请尝试其他订单!");
+                }
+                throw new ServiceException("订单状态不正确!无法接单");
+            }
+            // 1-已接单
+            info.setOrderTakersStatus("1");
+            info.setOrderTakersUserName(SecurityUtils.getUsername());
+            pickUpCourierMapper.updateByCode(info);
+        } finally {
+            // 释放锁
+            redisService.deleteObject(lockKey);
+        }
+    }
+
+    @Override
+    public void updateOrderStatusByCode(String code, String orderTakersStatus) {
+        PickUpCourier info = pickUpCourierMapper.selectByCode(code);
+        // 更新状态
+        info.setOrderTakersStatus(orderTakersStatus);
+        pickUpCourierMapper.updateByCode(info);
+    }
+
+    /**
+     * 接单接口添加锁,解决并发问题
+     * */
+    private void acceptOrderWithRedisLock (String code, String lockKey) {
+        // 判断是否已经存在锁
+        if (redisService.hasKey(lockKey)) {
+            throw new ServiceException("订单已被其他人接单,请刷新重试");
+        }
+        // 添加锁 - 锁的有效期10秒
+        redisService.setCacheObject(lockKey, code, 10L, TimeUnit.SECONDS);
     }
 
 }

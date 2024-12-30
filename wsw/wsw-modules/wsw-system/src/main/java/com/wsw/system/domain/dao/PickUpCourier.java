@@ -107,7 +107,7 @@ public class PickUpCourier extends BaseV1Entity {
     private Double fulfillmentFee;
 
     /**
-     * 0-未支付, 1-已支付, 2-退款中, 3已退款完成
+     * 0-未支付, 1-已支付, 2-退款中, 3-已退款完成, 4-支付失败 , 5-退款失败
      */
     private String paymentStatus;
 
