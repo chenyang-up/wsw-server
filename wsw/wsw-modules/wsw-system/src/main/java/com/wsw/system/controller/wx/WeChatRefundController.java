@@ -15,6 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import java.util.Map;
 
+/**
+ * 微信退款成功之后的反馈接口
+ *
+ * @author chenzhongxin
+ * @date 2024/12/31 09:14
+ */
+
 @Slf4j
 @RestController
 @RequestMapping("/api/wechat")
