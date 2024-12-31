@@ -167,4 +167,15 @@ public class PickUpCourierController extends BaseController {
         return success();
     }
 
+    /**
+     * 代取订单-定期删除-远程调用使用
+     *
+     * @author chenzhongxin
+     * @date 2024/12/31
+     */
+    @DeleteMapping("/deleteForDataOut15Minutes")
+    public AjaxResult deleteForDataOut15Minutes() {
+        pickUpCourierService.deleteForDataOut15Minutes();
+        return success();
+    }
 }

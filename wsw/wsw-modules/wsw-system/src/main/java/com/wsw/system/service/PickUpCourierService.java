@@ -106,4 +106,12 @@ public interface PickUpCourierService{
      */
     void updateOrderStatusByCode (String code, String orderTakersStatus);
 
+    /**
+     * 清理未支付且时间超过15分钟的订单数据
+     *
+     * @author chenzhongxin
+     * @date 2024/12/31 09:50
+     */
+    void deleteForDataOut15Minutes ();
+
 }

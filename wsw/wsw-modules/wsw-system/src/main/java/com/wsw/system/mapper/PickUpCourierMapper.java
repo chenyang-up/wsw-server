@@ -74,4 +74,18 @@ public interface PickUpCourierMapper extends BaseMapper<PickUpCourier> {
     default PickUpCourier selectByCode(String code) {
         return selectOne(new QueryWrapper<PickUpCourier>().eq("code", code));
     }
+
+    /**
+     * 清理未支付且时间超过15分钟的订单数据
+     *
+     * @author chenzhongxin
+     * @date 2024/12/31 09:53
+     */
+    default void deleteForDataOut15Minutes() {
+        delete(new QueryWrapper<PickUpCourier>()
+                // 0-未支付
+                .eq("payment_status", "0")
+                // 创建时间大于15分钟
+                .apply("created_time < NOW() - INTERVAL 15 MINUTE"));
+    }
 }

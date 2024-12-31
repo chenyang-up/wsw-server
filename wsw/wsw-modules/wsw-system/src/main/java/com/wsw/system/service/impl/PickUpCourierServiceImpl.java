@@ -329,6 +329,11 @@ public class PickUpCourierServiceImpl implements PickUpCourierService {
         pickUpCourierMapper.updateByCode(info);
     }
 
+    @Override
+    public void deleteForDataOut15Minutes() {
+        pickUpCourierMapper.deleteForDataOut15Minutes();
+    }
+
     /**
      * 接单接口添加锁,解决并发问题
      * */
