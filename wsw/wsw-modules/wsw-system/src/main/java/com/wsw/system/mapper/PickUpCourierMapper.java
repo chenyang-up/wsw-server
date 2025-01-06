@@ -81,11 +81,11 @@ public interface PickUpCourierMapper extends BaseMapper<PickUpCourier> {
      * @author chenzhongxin
      * @date 2024/12/31 09:53
      */
-    default void deleteForDataOut15Minutes() {
+    default void deleteForDataOutTime(Integer minutes) {
         delete(new QueryWrapper<PickUpCourier>()
                 // 0-未支付
                 .eq("payment_status", "0")
                 // 创建时间大于15分钟
-                .apply("created_time < NOW() - INTERVAL 15 MINUTE"));
+                .apply("created_time < NOW() - INTERVAL "+ minutes +" MINUTE"));
     }
 }

@@ -330,8 +330,8 @@ public class PickUpCourierServiceImpl implements PickUpCourierService {
     }
 
     @Override
-    public void deleteForDataOut15Minutes() {
-        pickUpCourierMapper.deleteForDataOut15Minutes();
+    public void deleteForDataOutTime(Integer minutes) {
+        pickUpCourierMapper.deleteForDataOutTime(minutes);
     }
 
     /**

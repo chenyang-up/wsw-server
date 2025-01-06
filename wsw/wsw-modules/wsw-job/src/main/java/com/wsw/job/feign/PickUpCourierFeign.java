@@ -3,6 +3,7 @@ package com.wsw.job.feign;
 import com.wsw.common.core.web.domain.AjaxResult;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  * 代取远程调用 Feign
@@ -19,7 +20,7 @@ public interface PickUpCourierFeign {
      * @author chenzhongxin
      * @date 2024/12/31
      */
-    @DeleteMapping("/deleteForDataOut15Minutes")
-    public AjaxResult deleteForDataOut15Minutes();
+    @DeleteMapping("/deleteForDataOutTime/{minutes}")
+    public AjaxResult deleteForDataOutTime(@PathVariable("minutes") Integer minutes);
 
 }

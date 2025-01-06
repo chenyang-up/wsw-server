@@ -173,9 +173,9 @@ public class PickUpCourierController extends BaseController {
      * @author chenzhongxin
      * @date 2024/12/31
      */
-    @DeleteMapping("/deleteForDataOut15Minutes")
-    public AjaxResult deleteForDataOut15Minutes() {
-        pickUpCourierService.deleteForDataOut15Minutes();
+    @DeleteMapping("/deleteForDataOutTime/{minutes}")
+    public AjaxResult deleteForDataOutTime(@PathVariable("minutes") Integer minutes) {
+        pickUpCourierService.deleteForDataOutTime(minutes);
         return success();
     }
 }

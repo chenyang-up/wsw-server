@@ -91,7 +91,7 @@ public interface PickUpCourierService{
     Boolean updateRefundStatusByCodeForCancelRefund(String code);
 
     /**
-     * 接单
+     * 修改订单状态-接单
      *
      * @author chenzhongxin
      * @date 2024/12/30 01:57
@@ -112,6 +112,6 @@ public interface PickUpCourierService{
      * @author chenzhongxin
      * @date 2024/12/31 09:50
      */
-    void deleteForDataOut15Minutes ();
+    void deleteForDataOutTime (Integer minutes);
 
 }

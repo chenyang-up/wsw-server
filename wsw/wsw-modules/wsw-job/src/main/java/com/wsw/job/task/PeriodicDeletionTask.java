@@ -1,6 +1,5 @@
 package com.wsw.job.task;
 
-import com.wsw.common.core.utils.StringUtils;
 import com.wsw.job.feign.PickUpCourierFeign;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -28,7 +27,7 @@ public class PeriodicDeletionTask {
     public void periodicDeletionTask() {
         // 代取订单周期删除 (针对未支付且订单时间超过15分钟数据)
         log.info("代取订单周期删除开始...");
-        pickUpCourierFeign.deleteForDataOut15Minutes();
+        pickUpCourierFeign.deleteForDataOutTime(15);
         log.info("代取订单周期删除结束...");
     }
 }
